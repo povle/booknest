@@ -24,6 +24,25 @@
     <!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
 
+    <style>
+        .carousel-control-next,
+        .carousel-control-prev /*, .carousel-indicators */ {
+            filter: invert(100%);
+        }
+        #bookCarousel {
+        margin-left: 50px;
+        margin-right: 50px;
+        }
+
+        .carousel-control-prev {
+        margin-left: -50px;
+        }
+
+        .carousel-control-next {
+        margin-right: -50px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -67,18 +86,18 @@
     </nav>
 
 
-    <div id="demo" class="carousel slide col-6 mx-auto px-2 py-4 my-5 container" data-bs-ride="carousel">
+    <div id="bookCarousel" class="carousel slide col-6 mx-auto px-2 py-4 my-5 container" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="2"></button>
         </div>
 
-        <div class="carousel-inner">
+        <div class="carousel-inner" data-bs-interval="false">
             <div class="card active container-fluid">
                 <div class="row">
                     <div class="col-8 mx-auto col-md-5">
-                        <img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-block">
+                        <img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-block my-2">
                     </div>
                     <div class="col-5 card-body text-black">
                         <div class="row">
@@ -98,10 +117,10 @@
             </div>
         </div>
 
-        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
