@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BookNest</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- default styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+        rel="stylesheet" type="text/css" />
+
+    <!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.css"
+        media="all" rel="stylesheet" type="text/css" />
+
+    <!-- important mandatory libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+        type="text/javascript"></script>
+
+    <!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand abs" href="/recommended.html">
+                <img src="assets/logo-white.svg" alt="Logo" style="width:29px;" class="d-inline-block">
+                <h class="d-none d-sm-inline"> BookNest</h>
+            </a>
+
+            <div class="navbar-collapse collapse order-3 order-md-2" id="collapseNavbar1">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recommended.html">Для вас</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="order-1 mx-auto order-md-3 col-8 col-sm-6 col-md-3">
+                <form class="form-inline my-lg-0 mx-auto" id="searchBar">
+                    <input class="form-control mx-auto" type="search" placeholder="Поиск" aria-label="Search">
+                </form>
+            </div>
+
+            <div class="navbar-collapse collapse order-3 order-md-4" id="collapseNavbar2">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/favorites.html">&#9829; Избранное</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/read_later.html"><b>+</b> Отложенное</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="assets/blank-profile-picture.webp" alt="Profile picture" style="width:20px;" class="rounded-pill d-inline-block align-text-top">
+                            <b class="d-inline d-md-none d-lg-inline">Паша</b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end active">
+                            <li><a class="dropdown-item active" href="/ratings.html">История рейтингов</a></li>
+                            <li><a class="dropdown-item" href="/settings.html">Настройки</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout.html">Выйти</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <button class="navbar-toggler ms-auto order-2" type="button" id="collapseButton" data-bs-toggle="collapse"
+                data-bs-target="#collapseNavbar1,#collapseNavbar2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-5 my-5">
+        <div class="card container">
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <a href="/books/1.html"><img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-inline-block my-2"></a>
+                </div>
+                <div class="col-9 card-body text-black">
+                    <div class="row">
+                        <div class="col btn-group my-auto mt-1">
+                            <button type="button" class="btn btn-primary">&#9829;</button>
+                            <button type="button" class="btn btn-primary">+</button>
+                        </div>
+                        <div class="col-7 my-auto">
+                            <input id="rating-1" type="text" class="rating" value="4.5" data-size="sm" data-show-caption="false"
+                                data-show-clear="false">
+                        </div>
+                    </div>
+                    <a href="/books/1.html" class="link-dark"><h3 class="card-title">Война и мир</h3></a>
+                    <p class="card-text text-secondary">Лев Толстой</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card container my-3">
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <a href="/books/2.html"><img src="assets/books/2.webp" alt="Преступление и наказание" class="card-img-top d-inline-block my-2"></a>
+                </div>
+                <div class="col-9 card-body text-black">
+                    <div class="row">
+                        <div class="col btn-group my-auto mt-1">
+                            <button type="button" class="btn btn-primary">&#9829;</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                        <div class="col-7 my-auto">
+                            <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
+                                data-show-clear="false">
+                        </div>
+                    </div>
+                    <a href="/books/2.html" class="link-dark"><h3 class="card-title">Преступление и наказание</h3></a>
+                    <p class="card-text text-secondary">Федор Достоевский</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+
+            <a href="/" class="col-12 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <img src="assets/logo-grey.svg" alt="Logo" style="width:30px;">
+            </a>
+            <p class="mb-0 mt-2 text-muted mx-auto">© 2023 Павел Блинов</p>
+
+        </footer>
+    </div>
+</body>
+
+</html>
