@@ -50,11 +50,11 @@
 
             <div class="navbar-collapse collapse order-3 order-md-4" id="collapseNavbar2">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link active" href="/favorites.html">&#9829; Избранное</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/read_later.html"><b>+</b> Отложенное</a>
+                        <a class="nav-link" href="/favorites.html">&#9829; Избранное</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link active" href="/read_later.html"><b>+</b> Отложенное</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,6 +82,28 @@
         <div class="card container">
             <div class="row">
                 <div class="col-3 mx-auto">
+                    <img src="assets/books/3.jpg" alt="Преступление и наказание" class="card-img-top d-inline-block my-2">
+                </div>
+                <div class="col-9 card-body text-black">
+                    <div class="row">
+                        <div class="col btn-group my-auto mt-1">
+                            <button type="button" class="btn btn-outline-primary">&#9825;</button>
+                            <button type="button" class="btn btn-primary">+</button>
+                        </div>
+                        <div class="col-7 my-auto">
+                            <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
+                                data-show-clear="false">
+                        </div>
+                    </div>
+                    <h3 class="card-title">Вы, конечно, шутите, мистер Фейнман!</h3>
+                    <p class="card-text text-secondary">Ричард Фейнман</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card container my-3">
+            <div class="row">
+                <div class="col-3 mx-auto">
                     <img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-inline-block my-2">
                 </div>
                 <div class="col-9 card-body text-black">
@@ -100,32 +122,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="card container my-3">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <img src="assets/books/2.webp" alt="Преступление и наказание" class="card-img-top d-inline-block my-2">
-                </div>
-                <div class="col-9 card-body text-black">
-                    <div class="row">
-                        <div class="col btn-group my-auto mt-1">
-                            <button type="button" class="btn btn-primary">&#9829;</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
-                        </div>
-                        <div class="col-7 my-auto">
-                            <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
-                                data-show-clear="false">
-                        </div>
-                    </div>
-                    <h3 class="card-title">Преступление и наказание</h3>
-                    <p class="card-text text-secondary">Федор Достоевский</p>
-                </div>
-            </div>
-        </div>
-
-
-
-
     </div>
 
     <div class="container">
