@@ -51,19 +51,19 @@
             <div class="navbar-collapse collapse order-3 order-md-4" id="collapseNavbar2">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">&#9829; Избранное</a>
+                        <a class="nav-link" href="#">&#9829; Избранное</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><b>+</b> Отложенное</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="assets/blank-profile-picture.webp" alt="Profile picture" style="width:20px;" class="rounded-pill d-inline-block align-text-top">
                             <b class="d-inline d-md-none d-lg-inline">Паша</b>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#">История рейтингов</a></li>
-                            <li><a class="dropdown-item" href="#">Настройки</a></li>
+                            <li><a class="dropdown-item active" href="#">Настройки</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="#">Выйти</a></li>
                         </ul>
@@ -78,54 +78,28 @@
         </div>
     </nav>
 
-    <div class="container-fluid py-5 my-5">
-        <div class="card container">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-inline-block my-2">
+    <div class="container row py-5 my-5">
+        <div class="col-8">
+            <form action="/settings.html" method="POST">
+                <div class="mb-3 mt-3">
+                    <label for="name" class="form-label">Имя:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Паша" name="name">
                 </div>
-                <div class="col-9 card-body text-black">
-                    <div class="row">
-                        <div class="col btn-group my-auto mt-1">
-                            <button type="button" class="btn btn-primary">&#9829;</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
-                        </div>
-                        <div class="col-7 my-auto">
-                            <input id="rating-1" type="text" class="rating" value="4.5" data-size="sm" data-show-caption="false"
-                                data-show-clear="false">
-                        </div>
-                    </div>
-                    <h3 class="card-title">Война и мир</h3>
-                    <p class="card-text text-secondary">Лев Толстой</p>
+                <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">Почта:</label>
+                    <input type="email" class="form-control" id="email" placeholder="pdblinov@edu.hse.ru" name="email">
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="pwd" class="form-label">Пароль:</label>
+                    <input type="password" class="form-control" id="pwd" placeholder="Сменить пароль" name="pswd">
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
         </div>
-
-        <div class="card container my-3">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <img src="assets/books/2.webp" alt="Преступление и наказание" class="card-img-top d-inline-block my-2">
-                </div>
-                <div class="col-9 card-body text-black">
-                    <div class="row">
-                        <div class="col btn-group my-auto mt-1">
-                            <button type="button" class="btn btn-primary">&#9829;</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
-                        </div>
-                        <div class="col-7 my-auto">
-                            <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
-                                data-show-clear="false">
-                        </div>
-                    </div>
-                    <h3 class="card-title">Преступление и наказание</h3>
-                    <p class="card-text text-secondary">Федор Достоевский</p>
-                </div>
-            </div>
+        <div class="col-4 mx-auto text-center">
+            <img src="assets/blank-profile-picture.webp" alt="Profile picture" style="width:100px;" class="rounded-pill">
+            <input type="file" class="form-control mt-3" id="profileNewFile">
         </div>
-
-
-
-
     </div>
 
     <div class="container">
