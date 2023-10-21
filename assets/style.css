@@ -1,0 +1,9 @@
+body {
+    min-width: 351px;
+    width: auto !important;
+    width: 351px;
+}
+
+nav {
+    min-width: 351px;
+}
