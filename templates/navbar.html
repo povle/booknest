@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand abs" href="/recommended.html">
+            <img src="assets/logo-white.svg" alt="Logo" style="width:29px;" class="d-inline-block">
+            <h class="d-none d-sm-inline"> BookNest</h>
+        </a>
+
+        <div class="navbar-collapse collapse order-3 order-md-2" id="collapseNavbar1">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-recommended" href="/recommended.html">Для вас</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="order-1 mx-auto order-md-3 col-8 col-sm-6 col-md-3">
+            <form class="form-inline my-lg-0 mx-auto" id="searchBar">
+                <input class="form-control mx-auto" type="search" placeholder="Поиск" aria-label="Search">
+            </form>
+        </div>
+
+        <div class="navbar-collapse collapse order-3 order-md-4" id="collapseNavbar2">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-favorites" href="/favorites.html">&#9829; Избранное</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-read_later" href="/read_later.html"><b>+</b> Отложенное</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="assets/blank-profile-picture.webp" alt="Profile picture" style="width:20px;"
+                            class="rounded-pill d-inline-block align-text-top">
+                        <b class="d-inline d-md-none d-lg-inline">Паша</b>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/ratings.html">История рейтингов</a></li>
+                        <li><a class="dropdown-item" href="/settings.html">Настройки</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="/logout.html">Выйти</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <button class="navbar-toggler ms-auto order-2" type="button" id="collapseButton" data-bs-toggle="collapse"
+            data-bs-target="#collapseNavbar1,#collapseNavbar2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
