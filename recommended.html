@@ -39,7 +39,7 @@
     <script>
         load_navbar("recommended");
         $.getJSON('/assets/books.json', function(json) {
-            render_books(json, '/templates/card_carousel.html',
+            render_books(json.sort((a,b) => b.rating - a.rating), '/templates/card_carousel.html',
             function () {
                 $('.carousel-item').first().addClass('active');
             });
