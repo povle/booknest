@@ -1,0 +1,22 @@
+<div class="active container-fluid">
+    <div class="row">
+        <div class="col-8 col-sm-5 mx-auto">
+            <img src="/assets/books/{{:cover}}" alt="Обложка" class="card-img-top d-block my-2">
+        </div>
+        <div class="col-5 card-body text-black">
+            <div class="row">
+                <div class="col btn-group my-auto mt-1">
+                    <button type="button" class="btn btn-primary">&#9829;</button>
+                    <button type="button" class="btn btn-primary">+</button>
+                </div>
+                <div class="col-7 my-auto">
+                    <input id="rating-1" type="text" class="rating" value="4.5" data-size="sm" data-show-caption="false"
+                        data-show-clear="false">
+                </div>
+            </div>
+            <h3>{{:title}}</h3>
+            <p class="text-secondary">{{:author}} - {{:year}} - {{:genre}}</p>
+            <p>{{:description}}</p>
+        </div>
+    </div>
+</div>
