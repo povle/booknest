@@ -1,6 +1,9 @@
-$.get("/templates/navbar.html", function (value) {
-    $('body').prepend(value);
-});
+function load_navbar(page_name) {
+    $.get("/templates/navbar.html", function (value) {
+        $('body').prepend(value);
+        $("#nav-"+page_name).addClass("active")
+    });
+};
 
 function render_books(books, template) {
     $.get(template, function (tmpl_code) {
