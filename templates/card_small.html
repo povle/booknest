@@ -1,0 +1,23 @@
+<div class="card container">
+    <div class="row">
+        <div class="col-3 mx-auto">
+            <a href="/books/{{:id}}.html"><img src="/assets/books/{{:cover}}" alt="Обложка"
+                    class="card-img-top d-inline-block my-2"></a>
+        </div>
+        <div class="col-9 card-body text-black">
+            <div class="row">
+                <div class="col btn-group my-auto mt-1">
+                    <button type="button" class="btn btn-outline-primary">&#9825;</button>
+                    <button type="button" class="btn btn-primary">+</button>
+                </div>
+                <div class="col-7 my-auto">
+                    <input type="text" class="rating" value="{{:rating}}" data-size="sm" data-show-caption="false" data-show-clear="false">
+                </div>
+            </div>
+            <a href="/books/{{:id}}.html" class="link-dark">
+                <h3 class="card-title">{{:title}}</h3>
+            </a>
+            <p class="card-text text-secondary">{{:author}}</p>
+        </div>
+    </div>
+</div>
