@@ -16,8 +16,11 @@
     <script src="assets/js/common.js"></script>
     <script>
         load_navbar("all");
-        render_books([{ id: 1, title: "тест", author: "бубубу", rating: 5, cover: "1.webp" },
-                            { id: 2, title: "тест", author: "бубубу", rating: 4.5, cover: "2.webp" }], "/templates/card_small.html");
+        $.getJSON('/assets/books.json', function(json) {
+            let searchParams = new URLSearchParams(window.location.search)
+            let q = searchParams.get('q').toLowerCase()
+            render_books(json.filter((book) => book.title.toLowerCase().includes(q)), '/templates/card_small.html');
+        });
     </script>
     <link rel="stylesheet" href="/assets/style.css">
 
