@@ -16,62 +16,19 @@
 
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
     <link rel="stylesheet" href="/assets/style.css">
+    <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="assets/js/common.js"></script>
     <script>
         load_navbar("favorites");
+        $.getJSON('/assets/books.json', function (json) {
+                const favorites = get_arr_from_storage('favorites');
+                render_books(json.filter((book) => favorites.includes(book.id)), '/templates/card_small.html');
+            });
     </script>
 </head>
 
 <body>
-    <div class="container-fluid py-5 my-5">
-        <div class="card container">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <a href="/books/1.html"><img src="assets/books/1.webp" alt="Война и мир" class="card-img-top d-inline-block my-2"></a>
-                </div>
-                <div class="col-9 card-body text-black">
-                    <div class="row">
-                        <div class="col btn-group my-auto mt-1">
-                            <button type="button" class="btn btn-primary">&#9829;</button>
-                            <button type="button" class="btn btn-primary">+</button>
-                        </div>
-                        <div class="col-7 my-auto">
-                            <input id="rating-1" type="text" class="rating" value="4.5" data-size="sm" data-show-caption="false"
-                                data-show-clear="false">
-                        </div>
-                    </div>
-                    <a href="/books/1.html" class="link-dark"><h3 class="card-title">Война и мир</h3></a>
-                    <p class="card-text text-secondary">Лев Толстой</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card container my-3">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <a href="/books/2.html"><img src="assets/books/2.webp" alt="Преступление и наказание" class="card-img-top d-inline-block my-2"></a>
-                </div>
-                <div class="col-9 card-body text-black">
-                    <div class="row">
-                        <div class="col btn-group my-auto mt-1">
-                            <button type="button" class="btn btn-primary">&#9829;</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
-                        </div>
-                        <div class="col-7 my-auto">
-                            <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
-                                data-show-clear="false">
-                        </div>
-                    </div>
-                    <a href="/books/2.html" class="link-dark"><h3 class="card-title">Преступление и наказание</h3></a>
-                    <p class="card-text text-secondary">Федор Достоевский</p>
-                </div>
-            </div>
-        </div>
-
-
-
-
-    </div>
+    <div class="container-fluid py-5 my-5" id="cards"></div>
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
