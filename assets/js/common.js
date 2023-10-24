@@ -5,7 +5,7 @@ function load_navbar(page_name) {
     });
 };
 
-function render_books(books, template) {
+function render_books(books, template, callback=null) {
     $(document).ready(function () {
         $.get(template, function (tmpl_code) {
             var tmpl = $.templates(tmpl_code);
@@ -21,6 +21,8 @@ function render_books(books, template) {
             let theme = document.createElement('script');
             theme.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js';
             document.head.appendChild(theme);
+
+            if (callback !== null) { callback() };
         });
     });
 };

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/assets/style.css">
     <style>
         .carousel-control-next,
-        .carousel-control-prev /*, .carousel-indicators */ {
+        .carousel-control-prev {
             filter: invert(100%);
         }
 
@@ -39,7 +39,10 @@
     <script>
         load_navbar("recommended");
         $.getJSON('/assets/books.json', function(json) {
-            render_books(json, '/templates/card_carousel.html');
+            render_books(json, '/templates/card_carousel.html',
+            function () {
+                $('.carousel-item').first().addClass('active');
+            });
         });
     </script>
 
