@@ -1,0 +1,24 @@
+<div class="carousel-item card active container-fluid">
+    <div class="row">
+        <div class="col-8 col-md-5 mx-auto">
+            <a href="/book.html?id={{:id}}"><img src="/assets/books/{{:cover}}" alt="Обложка" class="card-img-top d-block my-2"></a>
+        </div>
+        <div class="col-5 card-body text-black">
+            <div class="row">
+                <div class="col btn-group my-auto mt-1">
+                    <button type="button" class="btn btn-outline-primary">&#9825;</button>
+                    <button type="button" class="btn btn-primary">+</button>
+                </div>
+                <div class="col-7 my-auto">
+                    <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
+                        data-show-clear="false">
+                </div>
+            </div>
+            <a href="/book.html?id={{:id}}" class="link-dark">
+                <h3 class="card-title">{{:title}}</h3>
+            </a>
+            <p class="card-text text-secondary">{{:author}}</p>
+            <p class="card-text">{{:description}}</p>
+        </div>
+    </div>
+</div>

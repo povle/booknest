@@ -33,91 +33,21 @@
         align-items: center;
         }
     </style>
-
+    <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="assets/js/common.js"></script>
+
     <script>
         load_navbar("recommended");
+        $.getJSON('/assets/books.json', function(json) {
+            render_books(json, '/templates/card_carousel.html');
+        });
     </script>
 
 </head>
 
 <body>
     <div id="bookCarousel" class="carousel slide col-9 col-sm-8 mx-auto px-2 py-4 my-5 container h-100" data-bs-interval="false">
-        <div class="carousel-inner">
-            <div class="carousel-item card active container-fluid">
-                <div class="row">
-                    <div class="col-8 col-md-5 mx-auto">
-                        <a href="/books/3.html"><img src="/assets/books/3.jpg" alt="Обложка" class="card-img-top d-block my-2"></a>
-                    </div>
-                    <div class="col-5 card-body text-black">
-                        <div class="row">
-                            <div class="col btn-group my-auto mt-1">
-                                <button type="button" class="btn btn-outline-primary">&#9825;</button>
-                                <button type="button" class="btn btn-primary">+</button>
-                            </div>
-                            <div class="col-7 my-auto">
-                                <input id="rating-1" type="text" class="rating" value="5" data-size="sm" data-show-caption="false"
-                                    data-show-clear="false">
-                            </div>
-                        </div>
-                        <a href="/books/3.html" class="link-dark"><h3 class="card-title">Вы, конечно, шутите, мистер Фейнман!</h3></a>
-                        <p class="card-text text-secondary">Ричард Фейнман</p>
-                        <p class="card-text">Он был известен своим пристрастием к шуткам и розыгрышам, писал изумительные портреты, играл на экзотических музыкальных
-                        инструментах. Великолепный оратор, он превращал каждую свою лекцию в захватывающую интеллектуальную игру. На его
-                        выступления рвались не только студенты и коллеги, но и люди, просто увлеченные физикой.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item card container-fluid">
-                <div class="row">
-                    <div class="col-8 col-md-5 mx-auto">
-                        <a href="/books/4.html"><img src="assets/books/4.jpg" alt="Обложка" class="card-img-top d-block my-2"></a>
-                    </div>
-                    <div class="col-5 card-body text-black">
-                        <div class="row">
-                            <div class="col btn-group my-auto mt-1">
-                                <button type="button" class="btn btn-outline-primary">&#9825;</button>
-                                <button type="button" class="btn btn-outline-primary">+</button>
-                            </div>
-                            <div class="col-7 my-auto">
-                                <input id="rating-1" type="text" class="rating" value="4" data-size="sm" data-show-caption="false"
-                                    data-show-clear="false">
-                            </div>
-                        </div>
-                        <a href="/books/4.html" class="link-dark"><h3 class="card-title">Цветы для Элджернона</h3></a>
-                        <p class="card-text text-secondary">Дэниел Киз</p>
-                        <p class="card-text">Эта фантастическая история обладает поразительной психологической силой и заставляет задуматься над общечеловеческими
-                        вопросами нравственности: имеем ли мы право ставить друг над другом эксперименты, к каким результатам это может привести
-                        и какую цену мы готовы заплатить за то, чтобы стать "самым умным".</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item card container-fluid">
-                <div class="row">
-                    <div class="col-8 col-md-5 mx-auto">
-                        <a href="/books/5.html"><img src="assets/books/5.jpg" alt="Обложка" class="card-img-top d-block my-2"></a>
-                    </div>
-                    <div class="col-5 card-body text-black">
-                        <div class="row">
-                            <div class="col btn-group my-auto mt-1">
-                                <button type="button" class="btn btn-outline-primary">&#9825;</button>
-                                <button type="button" class="btn btn-outline-primary">+</button>
-                            </div>
-                            <div class="col-7 my-auto">
-                                <input id="rating-1" type="text" class="rating" value="4" data-size="sm" data-show-caption="false"
-                                    data-show-clear="false">
-                            </div>
-                        </div>
-                        <a href="/books/5.html" class="link-dark"><h3 class="card-title">Марсианин</h3></a>
-                        <p class="card-text text-secondary">Энди Вейер</p>
-                        <p class="card-text">Научно-фантастический роман о борьбе и надежде, о всепобеждающей вере в лучшее, придающий новый смысл понятию Человек.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <div class="carousel-inner" id="cards"></div>
 
         <div class="carousel-control">
         <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
