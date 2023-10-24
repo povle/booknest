@@ -5,60 +5,54 @@ function load_navbar(page_name) {
     });
 };
 
-function get_favorites() {
-    const raw = localStorage.getItem("favorites");
+function get_arr_from_storage(name) {
+    const raw = localStorage.getItem(name);
     if (raw !== null) { return JSON.parse(raw); };
     return [];
 };
 
-function is_favorite(id) {
-    return get_favorites().includes(id);
-};
-
-function toggle_favorites(id) {
-    var favorites = get_favorites();
-    if (favorites.contains(id)) {
-        favorites = favorites.filter(x => x!==id);
-        localStorage.setItem('favorites', JSON.stringify(favorites))
+function toggle_in_storage(id, name) {
+    let arr = get_arr_from_storage(name);
+    if (arr.includes(id)) {
+        arr = arr.filter(x => x !== id);
+        localStorage.setItem(name, JSON.stringify(arr))
         return false;
     };
-    favorites.push(id);
-    localStorage.setItem('favorites', JSON.stringify(favorites))
+    arr.push(id);
+    localStorage.setItem(name, JSON.stringify(arr))
     return true;
 };
 
-function get_read_later() {
-    const raw = localStorage.getItem("read_later");
-    if (raw !== null) { return JSON.parse(raw); };
-    return [];
-};
-
-function is_read_later(id) {
-    return get_read_later().includes(id);
-};
-
-function toggle_read_later(id) {
-    var read_later = get_read_later();
-    if (read_later.contains(id)) {
-        read_later = read_later.filter(x => x !== id);
-        localStorage.setItem('read_later', JSON.stringify(read_later))
-        return false;
+function set_button(id, type, value) {
+    let btn = $('#btn-' + type + '-' + id);
+    if (value) {
+        btn.removeClass('btn-outline-primary');
+        btn.addClass('btn-primary');
     }
     else {
-        read_later.push(id);
-        localStorage.setItem('read_later', JSON.stringify(read_later));
-        return true;
+        btn.addClass('btn-outline-primary');
+        btn.removeClass('btn-primary');
     };
+}
+
+function toggle_button(id, type) {
+    let result = toggle_in_storage(id, type);
+    set_button(id, type, result);
+    return result;
 };
 
 
 function render_books(books, template, callback=null) {
     $(document).ready(function () {
         $.get(template, function (tmpl_code) {
+            const favorites = get_arr_from_storage('favorites');
+            const read_later = get_arr_from_storage('read_later');
             var tmpl = $.templates(tmpl_code);
-            books.forEach(element => {
-                var html = tmpl.render(element);
+            books.forEach(book => {
+                var html = tmpl.render(book);
                 $("#cards").append(html);
+                set_button(book.id, 'favorites', favorites.includes(book.id));
+                set_button(book.id, 'read_later', read_later.includes(book.id));
             });
 
             let script = document.createElement('script');
