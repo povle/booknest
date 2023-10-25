@@ -8,66 +8,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js" type="text/javascript"></script>
+
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
-
     <link rel="stylesheet" href="/assets/style.css">
-    <style>
-        .carousel-control-next,
-        .carousel-control-prev {
-            filter: invert(100%);
-        }
-
-        .carousel-control {
-        width: 140%;
-        position: absolute;
-        top: 50%;
-        left: -20%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        }
-    </style>
     <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="assets/js/common.js"></script>
-
     <script>
-        load_navbar("recommended");
+        load_navbar('book');
         $.getJSON('/assets/books.json', function(json) {
-            render_books(json.sort((a,b) => b.rating - a.rating), '/templates/card_carousel.html',
-            function () {
-                $('.carousel-item').first().addClass('active');
-            });
+            let searchParams = new URLSearchParams(window.location.search)
+            let id = searchParams.get('id')
+            render_books(json.filter((book) => book.id == id), '/templates/card_fullscreen.html');
         });
     </script>
-
 </head>
 
 <body>
-    <div id="bookCarousel" class="carousel slide col-9 col-sm-8 mx-auto px-2 py-4 my-5 container h-100" data-bs-interval="false">
-        <h2>Для вас</h2>
-        <div class="carousel-inner" id="cards"></div>
-
-        <div class="carousel-control">
-        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-        </div>
-    </div>
+    <div class="container-fluid py-5 my-5 cards" id="cards"></div>
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-
             <a href="/" class="col-12 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="assets/logo-grey.svg" alt="Logo" style="width:30px;">
+                <img src="/assets/logo-grey.svg" alt="Logo" style="width:30px;">
             </a>
             <p class="mb-0 mt-2 text-muted mx-auto">© 2023 Павел Блинов</p>
 
