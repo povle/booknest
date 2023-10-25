@@ -24,7 +24,10 @@
         $.getJSON('/assets/books.json', function(json) {
             let searchParams = new URLSearchParams(window.location.search)
             let q = searchParams.get('q').toLowerCase()
-            render_books(json.filter((book) => book.title.toLowerCase().includes(q)), '/templates/card_small_grid.html');
+            let books = json.filter((book) => book.title.toLowerCase().includes(q));
+            if (books.length > 0) {render_books(books, '/templates/card_small_grid.html'); }
+            else {$('#cards').append('<div class="col-12 mx-auto text-center"><h3 class="text-secondary">По вашему запросу не удалось найти книг</h3></div>')}
+
         });
     </script>
     <link rel="stylesheet" href="/assets/style.css">
