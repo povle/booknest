@@ -15,7 +15,12 @@
     <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="assets/js/common.js"></script>
     <script>
-        load_navbar("all");
+        $.get("/templates/navbar.html", function (value) {
+                let searchParams = new URLSearchParams(window.location.search)
+                let q = searchParams.get('q')
+                $('body').prepend(value);
+                $('#searchInput').val(q);
+            });
         $.getJSON('/assets/books.json', function(json) {
             let searchParams = new URLSearchParams(window.location.search)
             let q = searchParams.get('q').toLowerCase()
@@ -27,7 +32,8 @@
 </head>
 
 <body>
-    <div class="container-fluid py-5 my-5">
+    <div class="container-fluid py-4 my-5">
+        <h2>Поиск</h2>
         <div class="row" id="cards"></div>
     </div>
 
