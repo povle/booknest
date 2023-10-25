@@ -19,7 +19,7 @@
         $.getJSON('/assets/books.json', function(json) {
             let searchParams = new URLSearchParams(window.location.search)
             let q = searchParams.get('q').toLowerCase()
-            render_books(json.filter((book) => book.title.toLowerCase().includes(q)), '/templates/card_small.html');
+            render_books(json.filter((book) => book.title.toLowerCase().includes(q)), '/templates/card_small_grid.html');
         });
     </script>
     <link rel="stylesheet" href="/assets/style.css">
@@ -27,7 +27,8 @@
 </head>
 
 <body>
-    <div class="container-fluid py-5 my-5" id="cards">
+    <div class="container-fluid py-5 my-5">
+        <div class="row" id="cards"></div>
     </div>
 
     <div class="container">
