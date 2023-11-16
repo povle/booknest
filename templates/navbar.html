@@ -27,6 +27,17 @@
                 <li class="nav-item">
                     <a class="nav-link" id="nav-read_later" href="/read_later.html"><b>+</b> Отложенное</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b class="inline">{{:username}}</b>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/ratings.html">История рейтингов</a></li>
+                        <li><a class="dropdown-item" href="/settings.html">Настройки</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="/logout.html">Выйти</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
 

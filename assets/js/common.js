@@ -1,6 +1,8 @@
 function load_navbar(page_name) {
     $.get("/templates/navbar.html", function (value) {
-        $('body').prepend(value);
+        var tmpl = $.templates(value);
+        var html = tmpl.render({username: "Паша"}); //FIXME
+        $('body').prepend(html);
         $("#nav-" + page_name).addClass("active")
     });
 };
