@@ -3,9 +3,10 @@ from datetime import datetime, timedelta
 from typing import Union, Annotated
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from app.models import UserInDB, TokenData
+from fastapi.staticfiles import StaticFiles
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24   # 1 day
@@ -68,3 +69,16 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     if user is None:
         raise credentials_exception
     return user
+
+
+class AuthStaticFiles(StaticFiles):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    async def __call__(self, scope, receive, send) -> None:
+        assert scope["type"] == "http"
+
+        request = Request(scope, receive)
+        token = await oauth2_scheme.__call__(request)
+        await get_current_user(token)
+        await super().__call__(scope, receive, send)
