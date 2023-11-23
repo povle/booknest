@@ -1,6 +1,6 @@
 import os
 from datetime import datetime, timedelta
-from typing import Union, Any, Annotated
+from typing import Union, Annotated
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
@@ -13,7 +13,7 @@ ALGORITHM = "HS256"
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
 
 
 def get_password_hash(password: str) -> str:
@@ -50,10 +50,12 @@ async def authenticate_user(username: str, password: str):
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
+        status_code=status.HTTP_302_FOUND,
+        detail="Not authorized",
+        headers={"Location": "/login.html"},
     )
+    if token is None:
+        raise credentials_exception
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
