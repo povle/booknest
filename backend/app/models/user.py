@@ -1,7 +1,11 @@
-from odmantic import Model, Field
+from beanie import Document, Indexed
+from typing import Annotated
 
 
-class User(Model):
+class User(Document):
     username: str
-    password: str  # FIXME: this should be a hashed password
-    email: str = Field(primary_field=True, unique=True)
+    email: str = Annotated[str, Indexed(str, unique=True)]
+
+
+class UserInDB(User):
+    hashed_password: str

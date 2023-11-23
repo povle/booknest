@@ -1,1 +1,1 @@
-from .mongodb import db
+from .mongodb import init_db

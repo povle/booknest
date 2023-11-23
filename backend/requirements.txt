@@ -1,8 +1,8 @@
-pydantic<2.0.0
+pydantic
 fastapi
 uvicorn
 python-multipart
 python-jose[cryptography]
 passlib[bcrypt]
-odmantic
+beanie
 motor
