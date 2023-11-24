@@ -76,7 +76,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_302_FOUND,
         detail="Not authorized",
-        headers={"Location": "/login.html"},
+        headers={"Location": "/index.html"},
     )
     if token is None:
         raise credentials_exception
@@ -118,6 +118,20 @@ async def get_token_or_none(form_data: Annotated[OAuth2PasswordRequestForm, Depe
         data={"sub": user.email}, expires_delta=access_token_expires
     )
     return access_token
+
+
+async def redirect_if_authenticated(token: Annotated[str, Depends(oauth2_scheme)]):
+    if token is None:
+        return
+    try:
+        await get_current_user(token)
+    except HTTPException:
+        return
+    raise HTTPException(
+        status_code=status.HTTP_302_FOUND,
+        detail="Already authenticated",
+        headers={"Location": "/app/recommended.html"},
+    )
 
 
 class AuthStaticFiles(StaticFiles):

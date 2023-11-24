@@ -7,7 +7,8 @@ from app.utils import (get_current_user,
                        get_user,
                        get_token,
                        get_token_or_none,
-                       ACCESS_TOKEN_EXPIRE_MINUTES)
+                       ACCESS_TOKEN_EXPIRE_MINUTES,
+                       redirect_if_authenticated)
 from fastapi.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory='frontend/templates')
@@ -16,7 +17,7 @@ router = APIRouter()
 
 
 @router.get('/register.html', response_class=HTMLResponse)
-async def get_register(request: Request):
+async def get_register(request: Request, _=Depends(redirect_if_authenticated)):
     return templates.TemplateResponse('register.html', context={'request': request})
 
 
@@ -24,7 +25,8 @@ async def get_register(request: Request):
 async def post_register(request: Request,
                         username: Annotated[str, Form()],
                         password: Annotated[str, Form()],
-                        email: Annotated[str, Form()]):
+                        email: Annotated[str, Form()],
+                        _=Depends(redirect_if_authenticated)):
     user = await get_user(email)
     if user is not None:
         return templates.TemplateResponse('register.html',
@@ -41,12 +43,14 @@ async def post_register(request: Request,
 
 
 @router.get('/login.html', response_class=HTMLResponse)
-async def get_login(request: Request):
+async def get_login(request: Request, _=Depends(redirect_if_authenticated)):
     return templates.TemplateResponse('login.html', context={'request': request})
 
 
 @router.post('/login.html')
-async def login(request: Request, access_token: str = Depends(get_token_or_none)):
+async def login(request: Request,
+                access_token: str = Depends(get_token_or_none),
+                _=Depends(redirect_if_authenticated)):
     if access_token is None:
         return templates.TemplateResponse('login.html',
                                           context={'error_message': 'Неверный логин или пароль',
@@ -58,6 +62,12 @@ async def login(request: Request, access_token: str = Depends(get_token_or_none)
                         samesite='strict',
                         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
     return response
+
+
+@router.get('/', response_class=HTMLResponse)
+@router.get('/index.html', response_class=HTMLResponse)
+async def index(request: Request, _=Depends(redirect_if_authenticated)):
+    return templates.TemplateResponse('index.html', context={'request': request})
 
 
 @router.get('/logout')
