@@ -1,12 +1,14 @@
 import os
 from datetime import datetime, timedelta
-from typing import Union, Annotated
+from typing import Union, Annotated, Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status, Request
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app.models import UserInDB, TokenData
 from fastapi.staticfiles import StaticFiles
+from fastapi.security.utils import get_authorization_scheme_param
+from starlette.status import HTTP_401_UNAUTHORIZED
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24   # 1 day
@@ -14,7 +16,28 @@ ALGORITHM = "HS256"
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
+
+
+class OAuth2PasswordBearerCookie(OAuth2PasswordBearer):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    async def __call__(self, request: Request) -> Optional[str]:
+        authorization = request.headers.get("Authorization") or request.cookies.get("Authorization")
+        scheme, param = get_authorization_scheme_param(authorization)
+        if not authorization or scheme.lower() != "bearer":
+            if self.auto_error:
+                raise HTTPException(
+                    status_code=HTTP_401_UNAUTHORIZED,
+                    detail="Not authenticated",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+            else:
+                return None
+        return param
+
+
+oauth2_scheme = OAuth2PasswordBearerCookie(tokenUrl="token", auto_error=False)
 
 
 def get_password_hash(password: str) -> str:
@@ -69,6 +92,21 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     if user is None:
         raise credentials_exception
     return user
+
+
+async def get_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Optional[str]:
+    user = await authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return access_token
 
 
 class AuthStaticFiles(StaticFiles):

@@ -1,9 +1,12 @@
 from fastapi import Form, APIRouter, HTTPException, Depends, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import RedirectResponse
 from typing import Annotated
 from app.models import User, UserInDB, Token
-from app.utils import create_access_token, authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, get_current_user, get_password_hash, get_user
-from datetime import timedelta
+from app.utils import (get_current_user,
+                       get_password_hash,
+                       get_user,
+                       get_token,
+                       ACCESS_TOKEN_EXPIRE_MINUTES)
 
 router = APIRouter()
 
@@ -22,29 +25,34 @@ async def post_register(username: Annotated[str, Form()],
                     hashed_password=get_password_hash(password),
                     email=email)
     await user.insert()
-    return user
+
+    response = RedirectResponse(url='/login.html', status_code=status.HTTP_302_FOUND)
+    return response
 
 
 @router.post("/token", response_model=Token)
-async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
-):
-    user = await authenticate_user(form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
+async def login_for_access_token(access_token: str = Depends(get_token)):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@router.post("/login")
+async def login(access_token: str = Depends(get_token)):
+    response = RedirectResponse(url='/app/recommended.html', status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key='Authorization',
+                        value=f'Bearer {access_token}',
+                        httponly=True,
+                        samesite='strict',
+                        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
+    return response
+
+
+@router.get("/logout")
+async def logout():
+    response = RedirectResponse(url='/login.html', status_code=status.HTTP_302_FOUND)
+    response.delete_cookie(key='Authorization')
+    return response
+
+
 @router.get("/users/me/", response_model=User)
-async def read_users_me(
-    current_user: Annotated[User, Depends(get_current_user)]
-):
+async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
     return current_user

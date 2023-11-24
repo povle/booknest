@@ -1,8 +1,17 @@
 function load_navbar(page_name) {
     $.get("/templates/navbar.html", function (value) {
-        var tmpl = $.templates(value);
-        var html = tmpl.render({username: "Паша"}); //FIXME
-        $('body').prepend(html);
+        $.get("/users/me/", function (user) {
+            var tmpl = $.templates(value);
+            var html = tmpl.render({username: user.username || "Гость"});
+            $('body').prepend(html);
+            $("#nav-" + page_name).addClass("active")
+        });
+    });
+};
+
+function load_navbar_guest(page_name) {
+    $.get("/templates/navbar_guest.html", function (value) {
+        $('body').prepend(value);
         $("#nav-" + page_name).addClass("active")
     });
 };
