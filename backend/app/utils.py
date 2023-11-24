@@ -109,6 +109,17 @@ async def get_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) 
     return access_token
 
 
+async def get_token_or_none(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Optional[str]:
+    user = await authenticate_user(form_data.username, form_data.password)
+    if not user:
+        return None
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return access_token
+
+
 class AuthStaticFiles(StaticFiles):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

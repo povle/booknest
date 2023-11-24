@@ -22,26 +22,30 @@
     <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="assets/js/common.js"></script>
     <script>
-        load_navbar_guest('register');
+        load_navbar_guest('login');
     </script>
 </head>
 
 <body>
     <div class="container-fluid py-5 my-5">
-        <form action="/register" method="POST">
-            <div class="mb-3 mt-3">
-                <label for="name" class="form-label">Имя:</label>
-                <input type="text" class="form-control" id="username" placeholder="Паша" name="username">
-            </div>
+        {% if error_message is defined %}
+        <div class="alert alert-danger" role="alert" id="login_error">
+            <p id="login_error_message">{{ error_message }}</p>
+        </div>
+        {% endif %}
+        <form action="/login.html" method="POST">
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Почта:</label>
-                <input type="email" class="form-control" id="email" placeholder="pdblinov@edu.hse.ru" name="email">
+                <input type="email" class="form-control" id="email" placeholder="pdblinov@edu.hse.ru" name="username">
             </div>
             <div class="mb-3">
                 <label for="pwd" class="form-label">Пароль:</label>
                 <input type="password" class="form-control" id="password" placeholder="Пароль" name="password">
             </div>
-            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <div class="mb-3">
+                <a href="/register.html">Нет аккаунта? Зарегистрироваться</a>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
         </form>
     </div>
 
