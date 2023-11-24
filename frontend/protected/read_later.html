@@ -20,7 +20,7 @@
     <script src="/assets/js/common.js"></script>
     <script>
         load_navbar("read_later");
-        $.getJSON('/assets/books.json', function (json) {
+        $.getJSON('/api/books', function (json) {
                 const favorites = get_arr_from_storage('read_later');
                 render_books(json.filter((book) => favorites.includes(book.id)), '/templates/card_small.html');
             });

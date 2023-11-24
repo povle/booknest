@@ -17,9 +17,17 @@ function load_navbar_guest(page_name) {
 };
 
 function get_arr_from_storage(name) {
-    const raw = localStorage.getItem(name);
-    if (raw !== null) { return JSON.parse(raw); };
-    return [];
+    var result = null;
+    $.ajax({
+        url: '/api/' + name,
+        type: 'get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
 };
 
 function toggle_in_storage(id, name) {
@@ -47,9 +55,20 @@ function set_button(id, type, value) {
 }
 
 function toggle_button(id, type) {
-    let result = toggle_in_storage(id, type);
-    set_button(id, type, result);
-    return result;
+    var res = null;
+    $.ajax({
+        url: '/api/' + type + '/toggle',
+        type: "POST",
+        data: JSON.stringify({ book_id: id }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            set_button(id, type, result);
+            res = result;
+        }
+    });
+    return res;
 };
 
 

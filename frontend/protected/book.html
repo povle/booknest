@@ -20,7 +20,7 @@
     <script src="/assets/js/common.js"></script>
     <script>
         load_navbar('book');
-        $.getJSON('/assets/books.json', function(json) {
+        $.getJSON('/api/books', function(json) {
             let searchParams = new URLSearchParams(window.location.search)
             let id = searchParams.get('id')
             render_books(json.filter((book) => book.id == id), '/templates/card_fullscreen.html');

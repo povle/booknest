@@ -21,7 +21,7 @@
                 $('body').prepend(value);
                 $('#searchInput').val(q);
             });
-        $.getJSON('/assets/books.json', function(json) {
+        $.getJSON('/api/books', function(json) {
             let searchParams = new URLSearchParams(window.location.search)
             let q = searchParams.get('q').toLowerCase()
             let books = json.filter((book) => book.title.toLowerCase().includes(q));
