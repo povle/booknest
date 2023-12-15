@@ -120,6 +120,14 @@ async def get_token_or_none(form_data: Annotated[OAuth2PasswordRequestForm, Depe
     return access_token
 
 
+async def get_new_token(user: Annotated[UserInDB, Depends(get_current_user)]) -> Optional[str]:
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return access_token
+
+
 async def redirect_if_authenticated(token: Annotated[str, Depends(oauth2_scheme)]):
     if token is None:
         return
