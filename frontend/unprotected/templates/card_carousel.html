@@ -6,8 +6,8 @@
         <div class="col-5 card-body text-black">
             <div class="row">
                 <div class="col btn-group my-auto mt-1">
-                    <button type="button" class="btn btn-outline-primary btn-book" id="btn-favorites-{{:id}}" onclick="toggle_button({{:id}}, 'favorites')">&#9829;</button>
-                    <button type="button" class="btn btn-outline-primary btn-book" id="btn-read_later-{{:id}}" onclick="toggle_button({{:id}}, 'read_later')">+</button>
+                    <button type="button" class="btn btn-outline-primary btn-book" id="btn-favorites-{{:id}}" onclick="toggle_button('{{:id}}', 'favorites')">&#9829;</button>
+                    <button type="button" class="btn btn-outline-primary btn-book" id="btn-read_later-{{:id}}" onclick="toggle_button('{{:id}}', 'read_later')">+</button>
                 </div>
                 <div class="col-7 my-auto">
                     <input id="rating-1" type="text" class="rating" value="{{:rating}}" data-size="sm" data-show-caption="false" data-show-clear="false" data-display-only="true">

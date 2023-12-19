@@ -20,10 +20,9 @@
     <script src="/assets/js/common.js"></script>
     <script>
         load_navbar("read_later");
-        $.getJSON('/api/books', function (json) {
-                const favorites = get_arr_from_storage('read_later');
-                render_books(json.filter((book) => favorites.includes(book.id)), '/templates/card_small.html');
-            });
+        $.getJSON('/api/read_later', function (favorites) {
+            render_books(favorites, '/templates/card_small.html');
+        });
     </script>
 </head>
 

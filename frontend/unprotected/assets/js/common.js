@@ -36,7 +36,7 @@ function get_arr_from_storage(name) {
         dataType: 'json',
         async: false,
         success: function (data) {
-            result = data;
+            result = data.map(x => x._id);
         }
     });
     return result;

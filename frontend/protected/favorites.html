@@ -20,10 +20,8 @@
     <script src="/assets/js/common.js"></script>
     <script>
         load_navbar("favorites");
-        $.getJSON('/api/books', function (json) {
-            $.getJSON('/api/favorites', function (favorites) {
-                render_books(json.filter((book) => favorites.includes(book.id)), '/templates/card_small.html');
-            });
+        $.getJSON('/api/favorites', function (favorites) {
+            render_books(favorites, '/templates/card_small.html');
         });
     </script>
 </head>
