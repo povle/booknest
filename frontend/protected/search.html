@@ -15,19 +15,14 @@
     <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="/assets/js/common.js"></script>
     <script>
-        $.get("/templates/navbar.html", function (value) {
-                let searchParams = new URLSearchParams(window.location.search)
-                let q = searchParams.get('q')
-                $('body').prepend(value);
-                $('#searchInput').val(q);
-            });
-        $.getJSON('/api/books', function(json) {
+        let searchParams = new URLSearchParams(window.location.search);
+        let q = searchParams.get('q');
+        load_navbar("search", q);
+        $.getJSON('/api/books?q=' + q, function(books) {
             let searchParams = new URLSearchParams(window.location.search)
             let q = searchParams.get('q').toLowerCase()
-            let books = json.filter((book) => book.title.toLowerCase().includes(q));
             if (books.length > 0) {render_books(books, '/templates/card_small_grid.html'); }
             else {$('#cards').append('<div class="col-12 mx-auto text-center"><h3 class="text-secondary">По вашему запросу не удалось найти книг</h3></div>')}
-
         });
     </script>
     <link rel="stylesheet" href="/assets/style.css">

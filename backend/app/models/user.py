@@ -1,12 +1,14 @@
 from beanie import Document, Indexed
 from typing import Annotated
+from .book import Book
 
 
 class User(Document):
     username: str
     email: str = Annotated[str, Indexed(str, unique=True)]
-    favorites: list[int] = []
-    read_later: list[int] = []
+    favorites: list[Book] = []
+    read_later: list[Book] = []
+    is_admin: bool = False
 
 
 class UserInDB(User):

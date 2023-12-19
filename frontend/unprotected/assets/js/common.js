@@ -1,11 +1,23 @@
-function load_navbar(page_name) {
-    $.get("/templates/navbar.html", function (value) {
-        $.get("/users/me/", function (user) {
-            var tmpl = $.templates(value);
-            var html = tmpl.render({username: user.username || "Гость"});
-            $('body').prepend(html);
-            $("#nav-" + page_name).addClass("active")
-        });
+function get_user() {
+    var jwt = document.cookie.split('; ').find(row => row.startsWith('Authorization')).split('=')[1].substring(7);
+    var user = JSON.parse(atob(jwt.split('.')[1]));
+    return user;
+}
+
+function load_navbar(page_name, q="") {
+    var user = get_user();
+    if (user.is_admin) {
+        var template = "/templates/navbar_admin.html";
+    }
+    else {
+        var template = "/templates/navbar.html";
+    };
+    $.get(template, function (value) {
+        var tmpl = $.templates(value);
+        var html = tmpl.render({username: user.username || "Гость"});
+        $('body').prepend(html);
+        $("#nav-" + page_name).addClass("active")
+        $('#searchInput').val(q);
     });
 };
 
@@ -43,7 +55,12 @@ function toggle_in_storage(id, name) {
 };
 
 function set_button(id, type, value) {
+    let user = get_user();
     let btn = $('#btn-' + type + '-' + id);
+    if (user.is_admin) {
+        btn.addClass('disabled');
+        return;
+    };
     if (value) {
         btn.removeClass('btn-outline-primary');
         btn.addClass('btn-primary');
@@ -73,6 +90,9 @@ function toggle_button(id, type) {
 
 
 function render_books(books, template, callback=null) {
+    books.forEach(book => {
+        book.id = book._id;
+    });
     $(document).ready(function () {
         $.get(template, function (tmpl_code) {
             const favorites = get_arr_from_storage('favorites');

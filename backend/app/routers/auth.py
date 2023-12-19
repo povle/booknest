@@ -10,6 +10,7 @@ from app.utils import (get_current_user,
                        get_token_or_none,
                        get_new_token,
                        ACCESS_TOKEN_EXPIRE_MINUTES,
+                       ADMIN_EMAIL,
                        redirect_if_authenticated)
 from fastapi.templating import Jinja2Templates
 
@@ -38,6 +39,8 @@ async def post_register(request: Request,
     user = UserInDB(username=username,
                     hashed_password=get_password_hash(password),
                     email=email)
+    if email == ADMIN_EMAIL:
+        user.is_admin = True
     await user.insert()
 
     response = RedirectResponse(url='/login.html', status_code=status.HTTP_302_FOUND)
@@ -60,7 +63,7 @@ async def login(request: Request,
     response = RedirectResponse(url='/app/recommended.html', status_code=status.HTTP_302_FOUND)
     response.set_cookie(key='Authorization',
                         value=f'Bearer {access_token}',
-                        httponly=True,
+                        httponly=False,
                         samesite='strict',
                         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
     return response
@@ -110,7 +113,7 @@ async def update_users_me(current_user: Annotated[User, Depends(get_current_user
     access_token = await get_new_token(current_user)
     response.set_cookie(key='Authorization',
                         value=f'Bearer {access_token}',
-                        httponly=True,
+                        httponly=False,
                         samesite='strict',
                         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 

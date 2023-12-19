@@ -14,6 +14,7 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24   # 1 day
 ALGORITHM = "HS256"
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
+ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -48,12 +49,10 @@ def verify_password(password: str, hashed_pass: str) -> bool:
     return password_context.verify(password, hashed_pass)
 
 
-def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+def create_access_token(user, expires_delta: Union[timedelta, None] = None):
+    to_encode = {"sub": user.email, "is_admin": user.is_admin, "username": user.username}
+    expires_delta = expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -94,6 +93,16 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     return user
 
 
+async def get_admin_user(user: Annotated[UserInDB, Depends(get_current_user)]) -> Optional[UserInDB]:
+    if not user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not admin",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return user
+
+
 async def get_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Optional[str]:
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -102,10 +111,7 @@ async def get_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) 
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(user)
     return access_token
 
 
@@ -113,18 +119,12 @@ async def get_token_or_none(form_data: Annotated[OAuth2PasswordRequestForm, Depe
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
         return None
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(user)
     return access_token
 
 
 async def get_new_token(user: Annotated[UserInDB, Depends(get_current_user)]) -> Optional[str]:
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(user)
     return access_token
 
 
@@ -132,9 +132,15 @@ async def redirect_if_authenticated(token: Annotated[str, Depends(oauth2_scheme)
     if token is None:
         return
     try:
-        await get_current_user(token)
+        user = await get_current_user(token)
     except HTTPException:
         return
+    if user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_302_FOUND,
+            detail="Already authenticated",
+            headers={"Location": "/admin/edit_book.html"},
+        )
     raise HTTPException(
         status_code=status.HTTP_302_FOUND,
         detail="Already authenticated",

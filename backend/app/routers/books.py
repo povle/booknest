@@ -1,14 +1,40 @@
 from fastapi import APIRouter, Depends, Body
-from fastapi.responses import RedirectResponse, FileResponse
-from app.utils import get_current_user
+from fastapi.responses import RedirectResponse
+from app.utils import get_current_user, get_admin_user
+from app.models import Book, OptionalBook
+from typing import List
+from beanie.operators import In
 
 
 router = APIRouter()
 
 
-@router.get('/books')
-async def get_books(user=Depends(get_current_user)):
-    return FileResponse('frontend/unprotected/assets/books.json')  # FIXME
+@router.get('/books', response_model=List[Book])
+async def get_books(q: str = None, _=Depends(get_current_user)):
+    if q:
+        return await Book.find_many(
+            In(Book.title, q.split(' '))
+        ).to_list()
+    return await Book.find_all().to_list()
+
+
+@router.get('/books/{book_id}', response_model=Book)
+async def get_book(book_id: str, _=Depends(get_current_user)):
+    return await Book.get(book_id)
+
+
+@router.post('/books', response_model=Book)
+async def post_book(book: Book, _=Depends(get_admin_user)):
+    inserted = await book.insert()
+    return inserted
+
+
+@router.patch('/books/{book_id}', response_model=Book)
+async def patch_book(book_id: str, updates: OptionalBook, _=Depends(get_admin_user)):
+    print(updates)
+    book = await Book.get(book_id)
+    await book.update({"$set": updates.model_dump(exclude_unset=True, exclude=['id'])})
+    return book
 
 
 @router.get('/recommended')

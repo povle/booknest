@@ -20,10 +20,10 @@
     <script src="/assets/js/common.js"></script>
     <script>
         load_navbar('book');
-        $.getJSON('/api/books', function(json) {
-            let searchParams = new URLSearchParams(window.location.search)
-            let id = searchParams.get('id')
-            render_books(json.filter((book) => book.id == id), '/templates/card_fullscreen.html');
+        let searchParams = new URLSearchParams(window.location.search)
+        let id = searchParams.get('id')
+        $.getJSON('/api/books/'+id, function(book) {
+            render_books([book], '/templates/card_fullscreen.html');
         });
     </script>
 </head>

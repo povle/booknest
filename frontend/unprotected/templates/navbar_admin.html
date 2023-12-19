@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-danger fixed-top" id="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand abs" href="/admin/edit_book.html">
+            <img src="/assets/logo-white.svg" alt="Logo" style="width:29px;" class="d-inline-block">
+            <h class="d-none d-sm-inline"> BookNest</h>
+        </a>
+
+        <div class="navbar-collapse collapse order-3 order-md-2" id="collapseNavbar1">
+        </div>
+
+        <div class="order-1 mx-auto order-md-3 col-8 col-sm-6 col-md-3">
+            <form class="form-inline my-lg-0 mx-auto" action="/app/search.html" method="get" id="searchBar">
+                <input class="form-control mx-auto" name="q" id="searchInput" type="search" placeholder="Поиск" aria-label="Search">
+            </form>
+        </div>
+
+        <div class="navbar-collapse collapse order-3 order-md-4" id="collapseNavbar2">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-edit_book" href="/admin/edit_book.html"><b>+</b> Создать книгу</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b class="inline">{{:username}}</b>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/app/settings.html">Настройки</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="/logout">Выйти</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <button class="navbar-toggler ms-auto order-2" type="button" id="collapseButton" data-bs-toggle="collapse"
+            data-bs-target="#collapseNavbar1,#collapseNavbar2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
