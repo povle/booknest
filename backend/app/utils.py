@@ -148,6 +148,15 @@ async def redirect_if_authenticated(token: Annotated[str, Depends(oauth2_scheme)
     )
 
 
+def find_in_links(links, obj):
+    if not isinstance(obj, str):
+        obj = obj.id
+    for link in links:
+        if link.ref.id == obj:
+            return link
+    return None
+
+
 class AuthStaticFiles(StaticFiles):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

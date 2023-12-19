@@ -1,5 +1,5 @@
-from beanie import Document, Indexed
-from typing import Annotated, Optional
+from beanie import Document, Indexed, Link
+from typing import Annotated, Optional, List
 from pydantic import BaseModel
 from .book import Book
 
@@ -7,8 +7,8 @@ from .book import Book
 class User(Document):
     username: str
     email: str = Annotated[str, Indexed(str, unique=True)]
-    favorites: list[Book] = []
-    read_later: list[Book] = []
+    favorites: List[Link[Book]] = []
+    read_later: List[Link[Book]] = []
     is_admin: bool = False
 
 
