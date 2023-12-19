@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Body
 from fastapi.responses import RedirectResponse
 from app.utils import get_current_user, get_admin_user
-from app.models import Book, OptionalBook
+from app.models import Book, PatchBook
 from typing import List
 from beanie.operators import In
 
@@ -30,7 +30,7 @@ async def post_book(book: Book, _=Depends(get_admin_user)):
 
 
 @router.patch('/books/{book_id}', response_model=Book)
-async def patch_book(book_id: str, updates: OptionalBook, _=Depends(get_admin_user)):
+async def patch_book(book_id: str, updates: PatchBook, _=Depends(get_admin_user)):
     print(updates)
     book = await Book.get(book_id)
     await book.update({"$set": updates.model_dump(exclude_unset=True, exclude=['id'])})

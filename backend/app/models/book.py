@@ -13,7 +13,7 @@ class Book(Document):
     rating: int
 
 
-class OptionalBook(BaseModel):
+class PatchBook(BaseModel):
     cover: Optional[str] = None
     title: Optional[str] = None
     author: Optional[str] = None

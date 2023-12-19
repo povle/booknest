@@ -113,6 +113,11 @@ function render_books(books, template, callback=null) {
             theme.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js';
             document.head.appendChild(theme);
 
+            var user = get_user();
+            if (!user.is_admin) {
+                $('.admin').addClass('d-none');
+            };
+
             if (callback !== null) { callback() };
         });
     });

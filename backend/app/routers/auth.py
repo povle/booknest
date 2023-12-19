@@ -2,7 +2,7 @@ from fastapi import Form, APIRouter, Request, Depends, status
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.exceptions import HTTPException
 from typing import Annotated
-from app.models import User, UserInDB, Token
+from app.models import User, UserInDB, PatchUser, Token
 from app.utils import (get_current_user,
                        get_password_hash,
                        get_user,
@@ -94,9 +94,11 @@ async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]
 
 @router.patch('/users/me/')
 async def update_users_me(current_user: Annotated[User, Depends(get_current_user)],
-                          username: str = Form(None),
-                          email: str = Form(None),
-                          password: str = Form(None)):
+                          updates: PatchUser):
+    username = updates.username
+    email = updates.email
+    password = updates.password
+
     current_user.username = username or current_user.username
     if email and email != current_user.email:
         user = await get_user(email)

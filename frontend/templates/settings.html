@@ -29,14 +29,17 @@
             var email = $('#email').val();
             var password = $('#password').val();
 
+            var data = {
+                username: username,
+                email: email,
+                password: password
+            };
+
             $.ajax({
                 url: '/users/me/',
                 type: 'PATCH',
-                data: {
-                    username: username,
-                    email: email,
-                    password: password
-                },
+                data: JSON.stringify(data),
+                contentType: 'application/json',
                 success: function (data) {
                     window.location.href = '/app/settings.html';
                 },

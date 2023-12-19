@@ -79,7 +79,7 @@
                 contentType: 'application/json',
 
                 success: function (data) {
-                    window.location.href = '/admin/edit_book.html';
+                    window.location.href = '/app/book.html?id=' + data._id;
                 },
                 error: function (data) {
                     console.log(data.responseJSON);
