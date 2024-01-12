@@ -104,7 +104,9 @@
             });
         }
 
-        if (id) {
+
+        $(document).ready(function () {
+            if (id) {
             $.getJSON('/api/books/' + id, function (book) {
                 $('#title').val(book.title);
                 $('#author').val(book.author);
@@ -113,16 +115,17 @@
                 $('#description').val(book.description);
                 $('#short_description').val(book.short_description);
                 $('#rating').val(book.rating);
-
-                let script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js';
-                document.head.appendChild(script);
-
-                let theme = document.createElement('script');
-                theme.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js';
-                document.head.appendChild(theme);
             });
         }
+
+            let script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js';
+            document.head.appendChild(script);
+
+            let theme = document.createElement('script');
+            theme.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js';
+            document.head.appendChild(theme);
+        });
    </script>
 </head>
 
@@ -162,7 +165,7 @@
             </div>
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Рейтинг:</label>
-                <input type="text" class="rating" id="rating" name="rating" value="" data-size="sm" data-show-caption="false" data-show-clear="false" data-step="1">
+                <input type="text" class="rating" id="rating" name="rating" value="3" data-size="sm" data-show-caption="false" data-show-clear="false" data-step="1">
             </div>
             <button type="button" class="btn btn-primary" onclick="post_book();">Сохранить</button>
             <button type="button" class="btn btn-danger" onclick="delete_book();">Удалить</button>

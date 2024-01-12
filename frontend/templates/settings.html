@@ -50,6 +50,21 @@
                 }
             });
         }
+
+        function delete_user() {
+            $.ajax({
+                url: '/users/me/',
+                type: 'DELETE',
+                success: function (data) {
+                    window.location.href = '/index.html';
+                },
+                error: function (data) {
+                    console.log(data.responseJSON);
+                    $('#login_error_message').text(data.responseJSON.detail);
+                    $('#login_error').show();
+                }
+            });
+        }
     </script>
 </head>
 
@@ -72,6 +87,7 @@
                 <input type="password" class="form-control" id="password" placeholder="Пароль" name="password">
             </div>
             <button type="button" class="btn btn-primary" onclick="patch_user();">Сохранить</button>
+            <button type="button" class="btn btn-danger" onclick="delete_user();">Удалить аккаунт</button>
         </form>
     </div>
 
