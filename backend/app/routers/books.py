@@ -4,6 +4,7 @@ from app.utils import get_current_user, get_admin_user, find_in_links
 from app.models import Book, PatchBook, User
 from typing import List
 from beanie.operators import In
+from beanie import Link
 from app.models.book import get_book_or_404
 
 
@@ -52,7 +53,7 @@ async def get_recommended(_=Depends(get_current_user)):
 @router.get('/favorites')
 async def get_favorites(user=Depends(get_current_user)):
     await user.fetch_link(User.favorites)
-    return user.favorites
+    return [x for x in user.favorites if not isinstance(x, Link)]
 
 
 @router.post('/favorites')
@@ -88,7 +89,7 @@ async def delete_favorites(book=Depends(get_book_or_404), user=Depends(get_curre
 @router.get('/read_later')
 async def get_read_later(user=Depends(get_current_user)):
     await user.fetch_link(User.read_later)
-    return user.read_later
+    return [x for x in user.read_later if not isinstance(x, Link)]
 
 
 @router.post('/read_later')
