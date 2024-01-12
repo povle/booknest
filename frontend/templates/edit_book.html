@@ -89,6 +89,24 @@
             });
         }
 
+        async function delete_book() {
+            if (id == null) {
+                return;
+            };
+            $.ajax({
+                url: '/api/books/' + id,
+                type: 'DELETE',
+                success: function (data) {
+                    window.location.href = '/admin/edit_book.html';
+                },
+                error: function (data) {
+                    console.log(data.responseJSON);
+                    $('#login_error_message').text(JSON.stringify(data.responseJSON.detail));
+                    $('#login_error').show();
+                }
+            });
+        }
+
         if (id) {
             $.getJSON('/api/books/' + id, function (book) {
                 $('#title').val(book.title);
@@ -142,6 +160,7 @@
                 <input type="text" class="form-control" id="rating" name="rating" value="">
             </div>
             <button type="button" class="btn btn-primary" onclick="post_book();">Сохранить</button>
+            <button type="button" class="btn btn-danger" onclick="delete_book();">Удалить</button>
         </form>
     </div>
 

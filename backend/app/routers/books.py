@@ -37,6 +37,13 @@ async def patch_book(book_id: str, updates: PatchBook, _=Depends(get_admin_user)
     return book
 
 
+@router.delete('/books/{book_id}')
+async def delete_book(book_id: str, _=Depends(get_admin_user)):
+    book = await get_book_or_404(book_id)
+    await book.delete()
+    return True
+
+
 @router.get('/recommended')
 async def get_recommended(_=Depends(get_current_user)):
     return RedirectResponse(url='books')  # FIXME
