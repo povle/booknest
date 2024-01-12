@@ -14,10 +14,7 @@
         media="all" rel="stylesheet" type="text/css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
-        type="text/javascript"></script>
 
-    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"></script>
     <link rel="stylesheet" href="/assets/style.css">
     <script src="https://www.jsviews.com/download/jsrender.js"></script>
     <script src="/assets/js/common.js"></script>
@@ -116,6 +113,14 @@
                 $('#description').val(book.description);
                 $('#short_description').val(book.short_description);
                 $('#rating').val(book.rating);
+
+                let script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js';
+                document.head.appendChild(script);
+
+                let theme = document.createElement('script');
+                theme.src = 'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js';
+                document.head.appendChild(theme);
             });
         }
    </script>
@@ -157,7 +162,7 @@
             </div>
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Рейтинг:</label>
-                <input type="text" class="form-control" id="rating" name="rating" value="">
+                <input type="text" class="rating" id="rating" name="rating" value="" data-size="sm" data-show-caption="false" data-show-clear="false" data-step="1">
             </div>
             <button type="button" class="btn btn-primary" onclick="post_book();">Сохранить</button>
             <button type="button" class="btn btn-danger" onclick="delete_book();">Удалить</button>
