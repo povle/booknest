@@ -38,8 +38,8 @@
 
     <script>
         load_navbar("recommended");
-        $.getJSON('/api/books', function(json) {
-            render_books(json.sort((a,b) => b.rating - a.rating), '/templates/card_carousel.html',
+        $.getJSON('/api/recommended', function(json) {
+            render_books(json, '/templates/card_carousel.html',
             function () {
                 $('.carousel-item').first().addClass('active');
             });

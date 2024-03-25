@@ -8,3 +8,5 @@ beanie
 motor
 jinja2
 pandas
+scikit-learn
+async-lru

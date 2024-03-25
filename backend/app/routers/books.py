@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
 from app.utils import get_current_user, get_admin_user, find_in_links
 from app.models import Book, PatchBook, User
+from app.recommender import get_recommendations
 from typing import List
 from beanie.operators import In
 from beanie import Link
@@ -12,12 +13,12 @@ router = APIRouter()
 
 
 @router.get('/books', response_model=List[Book])
-async def get_books(q: str = None, _=Depends(get_current_user)):
+async def get_books(q: str = None, limit: int = 50, _=Depends(get_current_user)):
     if q:
         return await Book.find_many(
-            In(Book.title, q.split(' '))
+            In(Book.title, q.lower().split(' '))
         ).to_list()
-    return await Book.find_all().to_list()
+    return await Book.find_all(limit=limit).to_list()
 
 
 @router.get('/books/{book_id}', response_model=Book)
@@ -46,8 +47,8 @@ async def delete_book(book_id: str, _=Depends(get_admin_user)):
 
 
 @router.get('/recommended')
-async def get_recommended(_=Depends(get_current_user)):
-    return RedirectResponse(url='books')  # FIXME
+async def get_recommended(user=Depends(get_current_user)):
+    return await get_recommendations(user)
 
 
 @router.get('/favorites')

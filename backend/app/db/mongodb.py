@@ -10,6 +10,8 @@ async def init_db():
     res = await init_beanie(database=client.booknest,
                             document_models=[UserInDB, Book, Rating])
     books, ratings = load_datasets()
-    await Book.insert_many(books)
-    await Rating.insert_many(ratings)
+    if books:
+        await Book.insert_many(books)
+    if ratings:
+        await Rating.insert_many(ratings)
     return res
