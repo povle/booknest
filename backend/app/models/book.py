@@ -1,12 +1,13 @@
-from beanie import Document
+import pymongo
+from beanie import Document, Indexed
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Annotated
 from fastapi import HTTPException, Depends, Body
 
 
 class Book(Document):
     cover: str
-    title: str
+    title: Annotated[str, Indexed(index_type=pymongo.TEXT)]
     author: str
     year: int
     genre: str

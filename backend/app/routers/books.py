@@ -4,7 +4,7 @@ from app.utils import get_current_user, get_admin_user, find_in_links
 from app.models import Book, PatchBook, User
 from app.recommender import get_recommendations
 from typing import List
-from beanie.operators import In
+from beanie.operators import Text
 from beanie import Link
 from app.models.book import get_book_or_404
 
@@ -15,9 +15,7 @@ router = APIRouter()
 @router.get('/books', response_model=List[Book])
 async def get_books(q: str = None, limit: int = 50, _=Depends(get_current_user)):
     if q:
-        return await Book.find_many(
-            In(Book.title, q.lower().split(' '))
-        ).to_list()
+        return await Book.find_many(Text(q)).sort([('score', {'$meta': 'textScore'})]).to_list()
     return await Book.find_all(limit=limit).to_list()
 
 
