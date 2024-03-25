@@ -1,3 +1,5 @@
+import os
+import pickle
 import pandas as pd
 import numpy as np
 from async_lru import alru_cache
@@ -6,18 +8,29 @@ from sklearn.neighbors import NearestNeighbors
 from app.models import User, Book, Rating
 from beanie import Link
 
+csr_mode = os.environ.get('CSR_MODE', 'BUILD')
+
 
 @alru_cache(maxsize=None)
 async def get_index_and_csr_matrix_and_model():
-    dataset = await Rating.find_all().to_list()
-    dataset = pd.DataFrame([rating.model_dump() for rating in dataset])
-    dataset['rating'] -= 3
-    matrix = dataset.pivot_table(index='isbn', columns='user_id', values='rating')
-    matrix = matrix.fillna(0)
-    c_matrix = csr_matrix(matrix.values)
+    if csr_mode == 'LOAD' and os.path.exists('/app/datasets/csr_matrices/c_matrix.pkl'):
+        index, c_matrix = pickle.load(open('/app/datasets/csr_matrices/c_matrix.pkl', 'rb'))
+        print('Loaded CSR matrix')
+    else:
+        dataset = await Rating.find_all().to_list()
+        dataset = pd.DataFrame([rating.model_dump() for rating in dataset])
+        dataset['rating'] -= 3
+        matrix = dataset.pivot_table(index='isbn', columns='user_id', values='rating')
+        matrix = matrix.fillna(0)
+        index = matrix.index
+        c_matrix = csr_matrix(matrix.values)
+        if csr_mode == 'DUMP':
+            pickle.dump((matrix.index, c_matrix), open('/app/datasets/csr_matrices/c_matrix.pkl', 'wb'))
+            print('Dumped CSR matrix')
+
     model = NearestNeighbors(metric='cosine', algorithm='brute')
     model.fit(c_matrix)
-    return matrix.index, c_matrix, model
+    return index, c_matrix, model
 
 
 async def get_recommendations(user: User, k: int = 10) -> list:
