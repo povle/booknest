@@ -7,3 +7,4 @@ passlib[bcrypt]
 beanie
 motor
 jinja2
+pandas

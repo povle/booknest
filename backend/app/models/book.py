@@ -13,6 +13,8 @@ class Book(Document):
     description: str
     short_description: str
     rating: int
+    original_title: Optional[str] = None
+    original_isbn: Optional[str] = None
 
 
 async def get_book_or_404(book_id: str = Body(..., embed=True)) -> Book:
@@ -31,3 +33,9 @@ class PatchBook(BaseModel):
     description: Optional[str] = None
     short_description: Optional[str] = None
     rating: Optional[int] = None
+
+
+class Rating(Document):
+    user_id: str
+    isbn: str
+    rating: float
