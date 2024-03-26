@@ -10,14 +10,13 @@
                     <button type="button" class="btn btn-outline-primary btn-book" id="btn-read_later-{{:id}}" onclick="toggle_button('{{:id}}', 'read_later')">+</button>
                 </div>
                 <div class="col-7 my-auto">
-                    <input id="rating-1" type="text" class="rating" value="{{:rating}}" data-size="sm" data-show-caption="false" data-show-clear="false" data-display-only="true">
                 </div>
             </div>
             <a href="/app/book.html?id={{:id}}" class="link-dark">
                 <h3 class="card-title">{{:title}}</h3>
             </a>
             <p class="card-text text-secondary">{{:author}}</p>
-            <p class="card-text">{{:short_description}}</p>
+            <p class="card-text">{{:short_description}}...</p>
         </div>
     </div>
 </div>
